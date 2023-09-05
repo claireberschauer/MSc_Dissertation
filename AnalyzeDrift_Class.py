@@ -232,7 +232,7 @@ class AnalyzeDrift():
         self.corner_cells = [(0, 0, 0), (0, 112, 0), (0, 0, 8), (0, 112, 8), 
         					 (1, 0, 0), (1, 112, 0), (1, 0, 8), (1, 112, 8)]
 
-        adj_cells = []  # finding calls adjacent to dead cells
+        adj_cells = []  # finding cells adjacent to dead cells
 
         for tpl in self.dead_cells:
             adj_1 = (tpl[0], tpl[1] + 1, tpl[2])  # one column up
