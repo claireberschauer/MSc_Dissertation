@@ -8,7 +8,7 @@ parameters needed to run Betsy's drift model and lists to define cell types and
 tag dead cells based on location with the tracker.
 
 Developed by Claire Berschauer for the SuperNEMO collaboration.
-Last edited: 22 August 2023
+Last edited: 05 September 2023
 """
 
 # Imports
@@ -203,7 +203,7 @@ class AnalyzeDrift():
         # ... (a_910, b_910, tx_910)]
         
         self.ab_vals = {'center_in': [(8.28, -0.9, 2.95), (8.53, -0.9, 2.97), 
-        							  (8.77, -0.9, 3.07)],
+        							  (8.77, -0.9, 3.06)],
                         'center_out': [(3.86, -1.99, 2.95), (4.19, -1.93, 2.97),
                         			   (4.55, -1.9, 3.06)],
                         'edge_in': [(8.05, -0.9, 3.73), (8.35, -0.92, 4.15), 
@@ -231,6 +231,25 @@ class AnalyzeDrift():
         
         self.corner_cells = [(0, 0, 0), (0, 112, 0), (0, 0, 8), (0, 112, 8), 
         					 (1, 0, 0), (1, 112, 0), (1, 0, 8), (1, 112, 8)]
+
+        adj_cells = []  # finding calls adjacent to dead cells
+
+        for tpl in self.dead_cells:
+            adj_1 = (tpl[0], tpl[1] + 1, tpl[2])  # one column up
+            adj_2 = (tpl[0], tpl[1] - 1, tpl[2])  # one column down
+            adj_3 = (tpl[0], tpl[1], tpl[2] + 1)  # one layer up
+            adj_4 = (tpl[0], tpl[1], tpl[2] - 1)  # one layer down
+            
+            adj_cells.append(adj_1)
+            adj_cells.append(adj_2)
+            adj_cells.append(adj_3)
+            adj_cells.append(adj_4)
+            
+
+        adj_cells_in_det = [a for a in adj_cells if a[1] in range(113) and 
+                            a[2] in range(9)]  # ensuring within tracker area
+            
+        self.adjacent_cells = list(set(adj_cells_in_det))
         
         ec = [(0, 0, l1) for l1 in np.arange(9)] 
         ec.extend([(0, c1, 0) for c1 in np.arange(113)])
@@ -240,6 +259,8 @@ class AnalyzeDrift():
         ec.extend([(1, c3, 0) for c3 in np.arange(113)])
         ec.extend([(1, 112, l4) for l4 in np.arange(9)]) 
         ec.extend([(1, c4, 8) for c4 in np.arange(113)])
+        ec.extend(self.adjacent_cells)  # to consider dead-cell adjacent cells 
+        # as edge cells in drift radius calculations
         
         self.edge_cells = [c for c in ec if c not in self.corner_cells]  # this 
         # line removes overlaps with corner cells
