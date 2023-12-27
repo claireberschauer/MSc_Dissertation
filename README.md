@@ -11,7 +11,7 @@ Contains my work while part of the SuperNEMO collaboration.
 
 ## Tech Support
 
-*SuperNEMO on a Windows PC*: Document containing all the technical issues I encountered while working with SuperNEMO software on a Windows operating system and how I got around them. NOTE: This document is incomplete (05 Sept. 2023) but I'm working on it and intend to have a final version by Sept. 9th. 
+*SuperNEMO on a Windows PC*: Document containing all the technical issues I encountered while working with SuperNEMO software on a Windows operating system and how I got around them. NOTE: This document is incomplete but I'm working on it and intend to have a final version by 2024. 
 
 ## Artwork
 
